@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>零件爆炸视图详情展示</title>
+    <style>
+        body { margin: 0; padding: 0; background: #1a1a1a; color: white; }
+        #viewer { width: 100vw; height: 100vh; background: #000; }
+        .toolbar {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 100; display: flex; gap: 10px; background: rgba(0,0,0,0.6);
+            padding: 10px 20px; border-radius: 30px; border: 1px solid #444;
+        }
+        .info-panel {
+            position: absolute; top: 20px; left: 20px; z-index: 100;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="info-panel">
+        <h2 style="margin:0; color:#00d1ff;">起动机组件展示</h2>
+        <p>滚轮缩放，鼠标拖拽查看细节</p>
+    </div>
+
+    <div id="viewer"></div>
+
+    <div class="toolbar">
+        <button id="zoom-in">放大</button>
+        <button id="zoom-out">缩小</button>
+        <button id="home">重置视图</button>
+        <button id="full-page">全屏</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>
+
+    <script>
+        var viewer = OpenSeadragon({
+            id: "viewer",
+            prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
+            tileSources: {
+                type: 'image',
+                url: 'motor.jpg'url: 'motor.jpg' // 这里确保图片文件名正确
+            },
+            showNavigationControl: false, // 使用自定义按钮
+            gestureSettingsMouse: { clickToZoom: true },
+            animationTime: 0.5
+        });
+
+        // 绑定工具栏
+        document.getElementById('zoom-in').onclick = function() { viewer.viewport.zoomBy(1.2); };
+        document.getElementById('zoom-out').onclick = function() { viewer.viewport.zoomBy(0.8); };
+        document.getElementById('home').onclick = function() { viewer.viewport.goHome(); };
+        document.getElementById('full-page').onclick = function() { viewer.setFullScreen(true); };
+    </script>
+</body>
+</html>
